@@ -16,6 +16,8 @@
 	<properties>
 		<java.version>17</java.version>
 		<testcontainers.version>1.17.6</testcontainers.version>
+        <dockerUserName>dock2727</dockerUserName>
+        <dockerImageName>${dockerUserName}/${project.artifactId}</dockerImageName>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -99,9 +101,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-                    <image>
-                        <name>dock2727/bookmarker-api</name>
-                    </image>
+					<image>
+						<name>${dockerImageName}</name>
+						<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -110,26 +113,29 @@
 					</excludes>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>2.8.0</version>
-                <configuration>
-                    <from>
-                        <image>eclipse-temurin:17-jre-focal</image>
-                    </from>
-                    <to>
-                        <image>dock2727/bookmarker-api-jib</image>
-                        <tags>
-                            <tag>latest</tag>
-                            <tag>0.0.1</tag>
-                        </tags>
-                    </to>
-                    <container>
-                        <ports>8080</ports>
-                    </container>
-                </configuration>
-            </plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>2.8.0</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:17-jdk</image>
+					</from>
+					<to>
+						<image>${dockerImageName}</image>
+						<tags>
+							<tag>latest</tag>
+							<tag>${project.version}</tag>
+						</tags>
+					</to>
+					<container>
+						<ports>
+							<port>8080</port>
+						</ports>
+					</container>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
