@@ -1,0 +1,23 @@
+1. starter test contains all mockiton junit
+2. testcontainer postgresql added
+3. @Container to use in test for using postegresql in test with ovveride database properites
+@TestPropertySource(properties = {
+        "spring.datasource.url=jdbc:tc:postgresql:14-alpine:///demo"
+})
+
+WITH THIS DOCKER IMAGE OF POSTGRESQL WE ARE RUNNING THE SAME ENV AS WE WILL HAVE ON PROD
+4.     @ParameterizedTest
+       @CsvSource({
+               "1,15,2,1,true,false,true,false",
+               "2,15,2,2,false,true,false,true"
+       })
+
+for parameterized test replace @Test
+
+5. We can use docker or docker layer file to create image
+6. More preferable is to Maven plugin to use that is auto configure in pom to generate docker file
+7. mvn spring-boot:build-image -Dspring-boot.build-image.imageName=dock2727/bookmarker-api
+Used to genereate image with name
+or you can specify name in Pom.xml to by whcih name image should be create
+8. mvn spring-boot:build-image //then this will only be needed
+9. We can also use jib google plugin to generate image. it will also push it to docker hub
