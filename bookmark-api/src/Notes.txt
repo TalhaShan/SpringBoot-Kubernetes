@@ -21,3 +21,5 @@ Used to genereate image with name
 or you can specify name in Pom.xml to by whcih name image should be create
 8. mvn spring-boot:build-image //then this will only be needed
 9. We can also use jib google plugin to generate image. it will also push it to docker hub
+10. mvn -verify run build jar
+
