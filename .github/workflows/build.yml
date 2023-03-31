@@ -30,5 +30,4 @@ jobs:
         run: |
           ./mvnw clean package jib:dockerBuild -DskipTests
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker tag dock2727/bookmarker-api:v2 ${{secrets.DOCKER_USERNAME}}/dock2727/bookmarker-api:v2
-          docker push ${{ secrets.DOCKER_USERNAME }}/bookmarker-api
+          docker push ${{ secrets.DOCKER_USERNAME }}/bookmarker-api:v2
