@@ -1,14 +1,10 @@
 package com.spring.kubernetes.api;
 
-import com.spring.kubernetes.domain.BookMark;
-import com.spring.kubernetes.domain.BookMarkService;
-import com.spring.kubernetes.domain.BookmarkMapper;
-import com.spring.kubernetes.domain.BookmarksDTO;
+import com.spring.kubernetes.domain.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +15,20 @@ public class BookMarkController {
     public final BookMarkService bookMarkService;
 
     @GetMapping
-    public BookmarksDTO getBookMarks(@RequestParam(name = "page",defaultValue = "1") Integer page) {
-        return bookMarkService.getBookMarks(page);
+    public BookmarksDTO getBookMarks(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                     @RequestParam(name = "query", defaultValue = "") String query) {
+        if (query == null || query.trim().length() == 0) {
+            return bookMarkService.getBookMarks(page);
+        }
+        return bookMarkService.searchBookMarks(query,page);
+
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookmarkDto createBookMark(@RequestBody @Valid CreateBookMarkRequest request){
+
+        return bookMarkService.createBookMark(request);
     }
 
 }

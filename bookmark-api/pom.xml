@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<testcontainers.version>1.17.6</testcontainers.version>
         <dockerUserName>dock2727</dockerUserName>
+        <problem-spring-web.version>0.27.0</problem-spring-web.version>
         <dockerImageName>${dockerUserName}/${project.artifactId}</dockerImageName>
 	</properties>
 	<dependencies>
@@ -62,6 +63,11 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>problem-spring-web-starter</artifactId>
+            <version>${problem-spring-web.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

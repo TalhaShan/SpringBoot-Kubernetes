@@ -8,7 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.Instant;
+
 
 @Service
 @Transactional
@@ -16,8 +17,9 @@ import java.util.List;
 public class BookMarkService {
 
     private final BookMarkRepository bookMarkRepository;
-    public final BookmarkMapper bookmarkMapper;
-//
+    private final BookmarkMapper bookmarkMapper;
+
+    //
 //    @Transactional(readOnly = true)
 //    public BookmarksDTO getBookMarks(Integer page) {
 //        int pageNo = page < 0 ? 0 : page - 1;
@@ -34,5 +36,24 @@ public class BookMarkService {
         Pageable pageable = PageRequest.of(pageNo, 10, Sort.Direction.DESC, "createdAt");
         Page<BookmarkDto> bookmarkPage = bookMarkRepository.findBookMark(pageable);
         return new BookmarksDTO(bookmarkPage);
+    }
+
+
+@Transactional(readOnly = true)
+public BookmarksDTO searchBookMarks(String query, Integer page) {
+    int pageNo = page < 0 ? 0 : page - 1;
+    Pageable pageable = PageRequest.of(pageNo, 10, Sort.Direction.DESC, "createdAt");
+
+    Page<BookmarkDto> bookmarkPage = bookMarkRepository.findByTitleContainsIgnoreCase(query,pageable);
+   // Page<BookmarkDto> bookmarkPage = bookMarkRepository.findByTitleContainsIgnoreCase(query,pageable);
+    return new BookmarksDTO(bookmarkPage);
+
+}
+
+    public BookmarkDto createBookMark(CreateBookMarkRequest request) {
+        BookMark bookMark  = new BookMark(null,request.getTitle(),request.getUrl(), Instant.now());
+        BookMark saveBookmark = bookMarkRepository.save(bookMark);
+
+        return bookmarkMapper.toDTO(saveBookmark);
     }
 }
