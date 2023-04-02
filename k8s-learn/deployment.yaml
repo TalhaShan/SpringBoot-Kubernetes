@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springkube
+  labels:
+    app: springkube
+  
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: springkube
+  
+  template:
+    metadata:
+      
+      labels:
+        app: springkube
+    spec:
+      containers:
+      - image: dock2727/springkube:v3
+        name: springkube
+        
+

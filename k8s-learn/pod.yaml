@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: springkube
+  labels:
+    app: springkube
+    version: "1.0" 
+spec:
+  containers:
+  - image: dock2727/springkube:v3
+    name: springkube
+    ports:
+    - containerPort: 8080
+    resources: {}
+
+
+
